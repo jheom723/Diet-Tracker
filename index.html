@@ -179,11 +179,10 @@
           const data = await res.json();
           const text = data.content?.map(b=>b.text||"").join("") || "";
           setComment(JSON.parse(text.replace(/```json|```/g,"").trim()));
-      //  } catch { setComment(null); }
-          } catch(err) { 
-            setComment({error: err.message || "알 수 없는 오류"}); 
-          }
-        setLoading(false);
+          } catch(err) {
+            alert("오류: " + err.message);
+            setComment({error: err.message || "알 수 없는 오류"});
+          }setLoading(false);
       }
 
       useEffect(() => { if (apiKey) fetchComment(apiKey); else setLoading(false); }, []);
