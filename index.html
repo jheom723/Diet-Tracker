@@ -507,5 +507,14 @@
 
     ReactDOM.createRoot(document.getElementById("root")).render(<DietTracker/>);
   </script>
+  <script>
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register("./sw.js")
+          .then(() => console.log("✅ Service Worker 등록 완료"))
+          .catch((e) => console.log("❌ Service Worker 오류:", e));
+      });
+    }
+  </script>
 </body>
 </html>
