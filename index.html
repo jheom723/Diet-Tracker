@@ -149,6 +149,7 @@
         setLoading(true);
         setComment(null);
         try {
+          alert("API 호출 시작: " + key.slice(0,10) + "...");
           const prompt = `다음은 사용자의 하루 다이어트 기록입니다. 건강한 다이어트 코치 입장에서 친근하고 구체적으로 피드백해주세요.
 
 날짜: ${record.date}
@@ -253,7 +254,7 @@
               </div>
             ) : (
               <div style={{ color: "#ef4444", fontSize: 13 }}> 분석에 실패했어요: {comment?.error || "API 키를 확인해주세요"}
-</div>
+              </div>
             )}
             <button onClick={onClose} style={{marginTop:22,width:"100%",padding:"12px",borderRadius:12,border:"1px solid rgba(255,255,255,0.1)",background:"rgba(255,255,255,0.05)",color:"#94a3b8",fontSize:13,cursor:"pointer"}}>
               닫기
