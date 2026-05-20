@@ -337,9 +337,14 @@
           {/* 헤더 */}
           <div style={{background:"rgba(255,255,255,0.04)",backdropFilter:"blur(12px)",borderBottom:"1px solid rgba(255,255,255,0.08)",padding:"20px 24px 16px",position:"sticky",top:0,zIndex:10}}>
             <div style={{maxWidth:520,margin:"0 auto"}}>
-              <div style={{display:"flex",alignItems:"baseline",gap:10}}>
-                <span style={{fontFamily:"'Playfair Display',serif",fontSize:24,fontWeight:700,color:"#c4b5fd"}}>나의 다이어트</span>
-                <span style={{fontSize:11,color:"#94a3b8",letterSpacing:2,textTransform:"uppercase"}}>Daily Tracker</span>
+              <div style={{display:"flex",alignItems:"baseline",justifyContent:"space-between"}}>
+                <div style={{display:"flex",alignItems:"baseline",gap:10}}>
+                  <span style={{fontFamily:"'Playfair Display',serif",fontSize:24,fontWeight:700,color:"#c4b5fd"}}>나의 다이어트</span>
+                  <span style={{fontSize:11,color:"#94a3b8",letterSpacing:2,textTransform:"uppercase"}}>Daily Tracker</span>
+                </div>
+                <button onClick={()=>setView("settings")} style={{background:"rgba(255,255,255,0.08)",border:"none",borderRadius:20,padding:"4px 12px",color:"#94a3b8",fontSize:12,cursor:"pointer"}}>
+                  ⚙️ 설정
+                </button>
               </div>
               <div style={{display:"flex",gap:6,marginTop:14}}>
                 {[{id:"log",label:editId?"✏️ 수정":"✍️ 기록"},{id:"history",label:"📋 히스토리"},{id:"stats",label:"📊 통계"}].map(tab=>(
@@ -357,6 +362,42 @@
 
             {/* AI 모달 */}
             {aiModal && <AiModal record={aiModal} onClose={()=>setAiModal(null)}/>}
+
+            {/* 설정 뷰 */}
+            {view==="settings" && (
+              <div style={{display:"flex",flexDirection:"column",gap:14}}>
+                <div style={{background:"rgba(255,255,255,0.04)",border:"1px solid rgba(255,255,255,0.08)",borderRadius:16,padding:"18px"}}>
+                  <div style={{fontSize:13,color:"#94a3b8",marginBottom:14}}>🔑 AI 코치 API 키</div>
+                  <div style={{fontSize:12,color:"#64748b",marginBottom:12,lineHeight:1.6}}>
+                    platform.claude.com → API 키 메뉴에서 발급받은 키를 입력하세요.<br/>
+                    키는 이 기기에만 저장되며 외부로 전송되지 않아요.
+                  </div>
+                  <input
+                    type="password"
+                    placeholder="sk-ant-api03-..."
+                    defaultValue={localStorage.getItem("diet-api-key")||""}
+                    id="api-key-input"
+                    style={{width:"100%",background:"rgba(255,255,255,0.07)",border:"1px solid rgba(255,255,255,0.1)",borderRadius:10,padding:"9px 12px",color:"#e2e8f0",fontSize:13,outline:"none",boxSizing:"border-box",marginBottom:10}}
+                  />
+                  <div style={{display:"flex",gap:10}}>
+                    <button
+                      onClick={()=>{
+                        const key = document.getElementById("api-key-input").value.trim();
+                        if(key){ localStorage.setItem("diet-api-key",key); alert("✅ API 키가 저장됐어요!"); }
+                      }}
+                      style={{flex:1,padding:"11px",borderRadius:12,border:"none",background:"linear-gradient(135deg,#7c3aed,#a855f7)",color:"#fff",fontSize:13,cursor:"pointer",fontWeight:600}}
+                    >저장</button>
+                    <button
+                      onClick={()=>{ localStorage.removeItem("diet-api-key"); document.getElementById("api-key-input").value=""; alert("🗑️ API 키가 삭제됐어요."); }}
+                      style={{flex:1,padding:"11px",borderRadius:12,border:"1px solid rgba(255,255,255,0.1)",background:"rgba(255,255,255,0.05)",color:"#94a3b8",fontSize:13,cursor:"pointer"}}
+                    >삭제</button>
+                  </div>
+                </div>
+                <button onClick={()=>setView("log")} style={{padding:"12px",borderRadius:12,border:"1px solid rgba(255,255,255,0.1)",background:"rgba(255,255,255,0.05)",color:"#94a3b8",fontSize:13,cursor:"pointer"}}>
+                  ← 돌아가기
+                </button>
+              </div>
+            )}
 
             {/* 기록 뷰 */}
             {view==="log" && (
